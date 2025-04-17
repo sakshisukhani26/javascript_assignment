@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Highlight Without Regex</title>
+  <style>
+    .highlight {
+      background-color: yellow;
+      font-weight: bold;
+    }
+    #paragraph {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Find word</h2>
+  <input type="text" id="txtinput" placeholder="Enter word" />
+  <button onclick="highlightFirst()">Highlight First</button>
+  <button onclick="highlightAll()">Highlight All</button>
+
+  <div id="paragraph">
+   Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos voluptate sint provident error modi nesciunt? Praesentium iure, excepturi tenetur eaque, qui illum id iusto est optio odit odio rem molestias.
+  </div>
+
+  <script>
+    const para = document.getElementById("paragraph");
+    const originalText = para.innerText;
+
+    function resetText() {
+      para.innerText = originalText;
+    }
+
+    function highlightFirst() {
+      resetText();
+      const word = document.getElementById("txtinput").value.trim();
+      if (!word) return;
+
+      const words = para.innerText.split(" ");
+      
+      const index = words.findIndex(w => w.toLowerCase().includes(word.toLowerCase()));
+
+      if (index !== -1) {
+        words[index] = `<span class="highlight">${words[index]}</span>`;
+        para.innerHTML = words.join(" ");
+      }
+    }
+
+    function highlightAll() {
+      resetText();
+      const word = document.getElementById("txtinput").value.trim();
+      if (!word) return;
+
+      const words = para.innerText.split(" ");
+      const highlightWord = words.map(w => 
+        w.toLowerCase().includes(word.toLowerCase()) 
+          ? `<span class="highlight">${w}</span> `
+          : w
+      );
+      para.innerHTML = highlightWord.join(" ");
+    }
+  </script>
+
+</body>
+</html>
